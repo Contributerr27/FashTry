@@ -1,0 +1,113 @@
+server:
+  port: ${SERVER_PORT:18888}
+
+spring:
+  application:
+    name: ai-clothing-swap-backend
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  # Hikari: avoid stale connections when MySQL / cloud proxy closes idle sockets
+  datasource:
+    hikari:
+      pool-name: HikariPool-FashTry
+      maximum-pool-size: 20
+      minimum-idle: 5
+      # Must stay below the database wait_timeout (20 min is safe for most setups)
+      max-lifetime: 1200000
+      idle-timeout: 480000
+      keepalive-time: 120000
+      connection-timeout: 20000
+      validation-timeout: 5000
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto
+
+logging:
+  level:
+    com.fashtry.backend: ${LOG_LEVEL:info}
+
+# NOWPayments (USDT TRC20 / BSC). Leave api-key empty to disable crypto checkout.
+nowpayments:
+  api-key: ${NOWPAYMENTS_API_KEY:}
+  ipn-secret: ${NOWPAYMENTS_IPN_SECRET:}
+  base-url: https://api.nowpayments.io/v1
+  min-amount-usd: 1
+  pay-currency-tron: usdttrc20
+  pay-currency-bsc: usdtbsc
+  verify-ipn: true
+
+app:
+  auth:
+    free-trial-credits: ${FREE_TRIAL_CREDITS:1}
+    daily-gift-total-credits: ${DAILY_GIFT_TOTAL_CREDITS:20}
+  # Bootstrap admin account. When default-password is empty a random password is
+  # generated on first start and printed once to the application log.
+  admin:
+    default-username: ${ADMIN_USERNAME:admin}
+    default-password: ${ADMIN_PASSWORD:}
+  # Gemini Developer API (https://ai.google.dev). API keys can also be managed at
+  # runtime from the admin console (Gemini Key pool).
+  gemini:
+    enabled: ${GEMINI_ENABLED:true}
+    api-key: ${GEMINI_API_KEY:}
+    model-id: ${GEMINI_IMAGE_MODEL:gemini-nano-banana-2.1}
+    # Text-only multimodal model (suite copywriting etc.)
+    text-model-id: ${GEMINI_TEXT_MODEL:gemini-2.5-flash}
+    # "AI write" helper for clothing suites
+    suite-brief-model-id: ${GEMINI_SUITE_BRIEF_MODEL:gemini-3.8-flash}
+    # Product retouch always uses this image-capable model
+    product-retouch-model-id: ${GEMINI_PRODUCT_RETOUCH_MODEL:gemini-2.5-flash-image}
+    # AI portrait: credits charged per output image
+    portrait-studio-credits-per-image: ${PORTRAIT_STUDIO_CREDITS_PER_IMAGE:1}
+    # Generation is slow; raise this if you see RPC::DEADLINE_EXCEEDED
+    http-timeout-ms: ${GEMINI_HTTP_TIMEOUT_MS:300000}
+    # Local edit (/api/image-edit): charged once per successful image
+    local-edit-consume-credits: ${LOCAL_EDIT_CONSUME_CREDITS:1}
+    # XHS card copywriting (/api/xhs-card)
+    xhs-card-consume-credits: ${XHS_CARD_CONSUME_CREDITS:1}
+    # Model packshot: (1 + scenes + 1) x credits per step
+    packshot-credits-per-step: ${PACKSHOT_CREDITS_PER_STEP:1}
+    # Veo image-to-video (/api/model-video)
+    model-video-enabled: ${MODEL_VIDEO_ENABLED:true}
+    veo-model-id: ${VEO_MODEL_ID:veo-3.1-lite-generate-preview}
+    model-video-consume-credits: ${MODEL_VIDEO_CONSUME_CREDITS:12}
+    model-video-allowed-duration-seconds: ${MODEL_VIDEO_ALLOWED_DURATIONS:4,6,8}
+    model-video-allowed-resolutions: ${MODEL_VIDEO_ALLOWED_RESOLUTIONS:720p,1080p}
+    model-video-default-duration-seconds: ${MODEL_VIDEO_DEFAULT_DURATION:8}
+    model-video-default-resolution: ${MODEL_VIDEO_DEFAULT_RESOLUTION:720p}
+    model-video-allowed-aspect-ratios: ${MODEL_VIDEO_ALLOWED_ASPECT_RATIOS:16:9,9:16}
+    model-video-default-aspect-ratio: ${MODEL_VIDEO_DEFAULT_ASPECT_RATIO:9:16}
+    model-video-credit-block-seconds: ${MODEL_VIDEO_CREDIT_BLOCK_SECONDS:2}
+    model-video-credits-per-block-720p: ${MODEL_VIDEO_CREDITS_PER_BLOCK_720P:3}
+    model-video-credits-per-block-1080p: ${MODEL_VIDEO_CREDITS_PER_BLOCK_1080P:5}
+    model-video-min-credits: ${MODEL_VIDEO_MIN_CREDITS:6}
+    model-video-extra-credits: ${MODEL_VIDEO_EXTRA_CREDITS:0}
+    model-video-poll-interval-ms: ${MODEL_VIDEO_POLL_INTERVAL_MS:10000}
+    model-video-progress-estimate-ms: ${MODEL_VIDEO_PROGRESS_ESTIMATE_MS:480000}
+  # Transactional email (verification codes)
+  resend:
+    api-key: ${RESEND_API_KEY:}
+    from: "${RESEND_FROM:FashTry <noreply@example.com>}"
+  brand-entry:
+    landing-url-template: "${BRAND_LANDING_URL:http://127.0.0.1:5173/?brand={code}}"
+    mini-program-url-template: ${BRAND_MINI_PROGRAM_URL:}
+    qr-size: 280
+
+# Lemon Squeezy hosted checkout. Leave api-key empty to disable.
+lemon-squeezy:
+  id: ${LEMON_SQUEEZY_STORE_ID:}
+  api-key: ${LEMON_SQUEEZY_API_KEY:}
+  checkout-base-url: ${LEMON_SQUEEZY_CHECKOUT_BASE_URL:}
+  # Optional: map recharge_packages.id -> Lemon Squeezy variant UUID
+  # variant-by-package-id:
+  #   1: "00000000-0000-0000-0000-000000000000"
+  webhook-signing-secret: ${LEMON_SQUEEZY_WEBHOOK_SECRET:}

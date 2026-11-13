@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fashtry.backend.mapper.AdminUnifiedTaskMapper">
+
+    <sql id="tryonUserFilter">
+        <where>
+            <if test="userId != null">user_id = #{userId}</if>
+        </where>
+    </sql>
+    <sql id="geminiUserFilter">
+        <where>
+            <if test="userId != null">user_id = #{userId}</if>
+        </where>
+    </sql>
+    <sql id="videoUserFilter">
+        <where>
+            <if test="userId != null">user_id = #{userId}</if>
+        </where>
+    </sql>
+
+    <select id="countUnified" resultType="long">
+        SELECT
+            (SELECT COUNT(*) FROM tryon_tasks
+            <include refid="tryonUserFilter"/>
+            )
+            +
+            (SELECT COUNT(*) FROM gemini_image_tasks
+            <include refid="geminiUserFilter"/>
+            )
+            +
+            (SELECT COUNT(*) FROM model_video_tasks
+            <include refid="videoUserFilter"/>
+            )
+    </select>
+
+    <select id="selectUnifiedPage" resultType="com.fashtry.backend.bean.vo.AdminUnifiedTaskListItemVO">
+        SELECT * FROM (
+            SELECT
+                'tryon' AS record_source,
+                id,
+                user_id,
+                status,
+                IFNULL(NULLIF(TRIM(provider), ''), '—') AS task_label,
+                category AS detail_tag,
+                consume_credits,
+                created_at
+            FROM tryon_tasks
+            <include refid="tryonUserFilter"/>
+            UNION ALL
+            SELECT
+                'gemini_image',
+                id,
+                user_id,
+                status,
+                IFNULL(NULLIF(TRIM(task_type), ''), '—') AS task_label,
+                NULL AS detail_tag,
+                consume_credits,
+                created_at
+            FROM gemini_image_tasks
+            <include refid="geminiUserFilter"/>
+            UNION ALL
+            SELECT
+                'model_video',
+                id,
+                user_id,
+                status,
+                'model_video' AS task_label,
+                NULLIF(TRIM(CONCAT(IFNULL(resolution, ''), ' ', IFNULL(aspect_ratio, ''))), '') AS detail_tag,
+                consume_credits,
+                created_at
+            FROM model_video_tasks
+            <include refid="videoUserFilter"/>
+        ) u
+        ORDER BY u.created_at DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+</mapper>

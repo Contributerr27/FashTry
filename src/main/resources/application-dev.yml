@@ -1,0 +1,109 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME:fash_try}
+    password: ${DB_PASSWORD:fash_try}
+    url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:fash_try}?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: ${REDIS_DATABASE:0}
+      timeout: ${REDIS_TIMEOUT_MS:10000}
+      lettuce:
+        pool:
+          max-wait: 30000
+          max-active: 100
+          max-idle: 20
+          min-idle: 0
+
+app:
+  auth:
+    free-trial-credits: ${FREE_TRIAL_CREDITS:1}
+    daily-gift-total-credits: ${DAILY_GIFT_TOTAL_CREDITS:20}
+  # Google OAuth 2.0 (optional, sign in with Google)
+  google:
+    client-id: ${GOOGLE_CLIENT_ID:}
+    client-secret: ${GOOGLE_CLIENT_SECRET:}
+    redirect-base-url: ${APP_BASE_URL:http://localhost:18888}
+    frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:5173}
+    sms-code-ttl-seconds: 300
+    sms-send-interval-seconds: 60
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:5174,http://127.0.0.1:5173,http://127.0.0.1:5174}
+  jwt:
+    # HS256 requires at least 32 bytes. Override in every non-local environment.
+    secret: ${JWT_SECRET:dev-only-jwt-secret-change-me-32-chars}
+    access-token-expire-seconds: ${JWT_ACCESS_EXPIRE_SECONDS:7200}
+    refresh-token-expire-seconds: ${JWT_REFRESH_EXPIRE_SECONDS:604800}
+  brand-entry:
+    landing-url-template: "${BRAND_LANDING_URL:http://localhost:5173/?brand={code}}"
+    mini-program-url-template: ${BRAND_MINI_PROGRAM_URL:}
+    qr-size: 280
+  # Tencent Cloud COS object storage
+  cos:
+    region: ${COS_REGION:ap-guangzhou}
+    secret-id: ${COS_SECRET_ID:}
+    secret-key: ${COS_SECRET_KEY:}
+    bucket-name: ${COS_BUCKET:}
+    domain: ${COS_DOMAIN:}
+    accelerate-mode: ${COS_ACCELERATE_MODE:off}
+    # Content moderation (requires CI on the bucket)
+    ci-moderation-enabled: ${COS_CI_MODERATION_ENABLED:false}
+  # Tencent Cloud SMS
+  sms:
+    secret-id: ${SMS_SECRET_ID:}
+    secret-key: ${SMS_SECRET_KEY:}
+    region: ${SMS_REGION:ap-guangzhou}
+    sms-sdk-app-id: ${SMS_SDK_APP_ID:}
+    sign-name: ${SMS_SIGN_NAME:}
+    template-id: ${SMS_TEMPLATE_ID:}
+    template-id-intl: ${SMS_TEMPLATE_ID_INTL:}
+  ai:
+    callback-base-url: ${APP_BASE_URL:http://localhost:18888}
+    fashn-api-base-url: ${FASHN_API_BASE_URL:https://api.fashn.ai}
+    # Legacy FASHN provider; leave empty when using Gemini only
+    fashn-api-key: ${FASHN_API_KEY:}
+  tryon:
+    redis-key-prefix: "tryon:task:"
+    redis-ttl-seconds: 604800
+    tryon-progress-estimate-seconds: 128
+  product-to-model:
+    redis-key-prefix: "product-to-model:task:"
+    redis-ttl-seconds: 604800
+  pay:
+    notify-base-url: ${APP_BASE_URL:http://localhost:18888}
+    payment-timeout-minutes: 10
+
+# WeChat Mini Program + WeChat Pay V3 (optional)
+wx:
+  mini-program:
+    app-id: ${WX_MINI_APP_ID:}
+    secret: ${WX_MINI_SECRET:}
+  pay:
+    app-id: ${WX_PAY_APP_ID:}
+    mch-id: ${WX_PAY_MCH_ID:}
+    # Absolute path or classpath: path to apiclient_key.pem (never commit it)
+    private-key-path: ${WX_PAY_PRIVATE_KEY_PATH:}
+    cert-serial-no: ${WX_PAY_CERT_SERIAL_NO:}
+    platform-cert-path: ${WX_PAY_PLATFORM_CERT_PATH:}
+
+nowpayments:
+  api-key: ${NOWPAYMENTS_API_KEY:}
+  ipn-secret: ${NOWPAYMENTS_IPN_SECRET:}
+
+alipay:
+  server-url: https://openapi.alipay.com/gateway.do
+  app-id: ${ALIPAY_APP_ID:}
+  private-key: ${ALIPAY_PRIVATE_KEY:}
+  format: json
+  alipay-public-key: ${ALIPAY_PUBLIC_KEY:}
+  charset: UTF-8
+  sign-type: RSA2
+
+# PayPal REST API (sandbox by default)
+paypal:
+  client-id: ${PAYPAL_CLIENT_ID:}
+  client-secret: ${PAYPAL_CLIENT_SECRET:}
+  base-url: ${PAYPAL_BASE_URL:https://api-m.sandbox.paypal.com}

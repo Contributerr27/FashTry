@@ -1,0 +1,204 @@
+.contact-main {
+  max-width: 980px;
+}
+
+.contact-card-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  border-radius: 11px;
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.contact-hero {
+  margin-bottom: 2rem;
+}
+
+.contact-hero h1 {
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 700;
+  margin: 0 0 0.65rem;
+  letter-spacing: -0.02em;
+}
+
+.contact-brand {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 0.85rem;
+}
+
+.contact-intro {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .contact-grid {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: stretch;
+  }
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.35rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  min-height: 100%;
+}
+
+.contact-card-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.contact-card h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.contact-card-desc {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.contact-card .btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.contact-qr-wrap {
+  margin: 0 auto 1rem;
+  padding: 0.5rem;
+  background: #fff;
+  border-radius: var(--radius-sm);
+  max-width: 180px;
+}
+
+.contact-qr-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+.contact-email-addr {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  word-break: break-all;
+  color: var(--text);
+  margin: 0 0 1rem;
+  padding: 0.65rem 0.75rem;
+  background: var(--accent-muted);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.contact-email-addr--solo {
+  margin-bottom: 0;
+}
+
+.contact-card-wechat .contact-card-desc {
+  margin-bottom: 0.75rem;
+}
+
+/* 微信二维码弹窗 */
+.contact-modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 5200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.contact-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 8, 0.85);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+
+.contact-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: min(98vw, 680px);
+  padding: 1.5rem 1.25rem 1.5rem;
+  text-align: center;
+}
+
+.contact-modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.65rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: color 0.15s ease;
+}
+
+.contact-modal-close:hover {
+  color: var(--accent);
+}
+
+.contact-modal-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding-right: 1.5rem;
+}
+
+.contact-modal-hint {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* 微信弹窗图固定比例 1190×662（横图，内含二维码等） */
+.contact-qr-wrap--modal {
+  width: min(94vw, 640px);
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0.75rem 0.85rem;
+  box-sizing: border-box;
+}
+
+.contact-qr-wrap--modal img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1190 / 662;
+  object-fit: contain;
+}

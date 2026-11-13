@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fashtry.backend.mapper.AdminStatsMapper">
+
+    <select id="userSummary" resultType="map">
+        SELECT
+            COUNT(*) AS total,
+            COALESCE(SUM(created_at &gt;= #{startToday} AND created_at &lt; #{endTomorrow}), 0) AS today,
+            COALESCE(SUM(created_at &gt;= #{start7}), 0) AS last7,
+            COALESCE(SUM(created_at &gt;= #{start30}), 0) AS last30
+        FROM users
+    </select>
+
+    <select id="tryonSummary" resultType="map">
+        SELECT
+            COUNT(*) AS total,
+            COALESCE(SUM(status = 0), 0) AS queued,
+            COALESCE(SUM(status = 1), 0) AS processing,
+            COALESCE(SUM(status = 2), 0) AS done,
+            COALESCE(SUM(status = 3), 0) AS failed,
+            COALESCE(SUM(created_at &gt;= #{start7}), 0) AS last7,
+            COALESCE(SUM(CASE WHEN status = 2 THEN consume_credits ELSE 0 END), 0) AS creditsDone
+        FROM tryon_tasks
+    </select>
+
+    <select id="geminiSummary" resultType="map">
+        SELECT
+            task_type AS taskType,
+            COUNT(*) AS total,
+            COALESCE(SUM(created_at &gt;= #{start7}), 0) AS last7,
+            COALESCE(SUM(CASE WHEN status = 2 THEN consume_credits ELSE 0 END), 0) AS creditsSuccess
+        FROM gemini_image_tasks
+        WHERE task_type IN ('EDIT', 'CLOTHING_PRODUCT_SUITE', 'CLOTHING_PACKSHOT')
+        GROUP BY task_type
+    </select>
+
+    <select id="uploadSummary" resultType="map">
+        SELECT
+            COUNT(*) AS total,
+            COALESCE(SUM(created_at &gt;= #{start7}), 0) AS last7
+        FROM user_upload_records
+    </select>
+
+    <select id="brandCount" resultType="long">
+        SELECT COUNT(*) FROM brands
+    </select>
+
+    <select id="paidOrderSummary" resultType="map">
+        SELECT
+            COUNT(*) AS paidCount,
+            COALESCE(SUM(amount), 0) AS paidSum,
+            COALESCE(SUM(paid_at &gt;= #{start7}), 0) AS paid7
+        FROM orders
+        WHERE status = 1
+    </select>
+
+    <select id="walletSummary" resultType="map">
+        SELECT
+            COALESCE(SUM(total_recharged), 0) AS credits,
+            COALESCE(SUM(total_recharged_amount), 0) AS amount
+        FROM user_wallets
+    </select>
+
+    <select id="userDaily" resultType="map">
+        SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS d, COUNT(*) AS c
+        FROM users
+        WHERE created_at &gt;= #{start14} AND created_at &lt; #{endTomorrow}
+        GROUP BY DATE_FORMAT(created_at, '%Y-%m-%d')
+    </select>
+
+    <select id="tryonDaily" resultType="map">
+        SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS d, COUNT(*) AS c
+        FROM tryon_tasks
+        WHERE created_at &gt;= #{start14} AND created_at &lt; #{endTomorrow}
+        GROUP BY DATE_FORMAT(created_at, '%Y-%m-%d')
+    </select>
+
+    <select id="geminiDaily" resultType="map">
+        SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS d, task_type AS taskType, COUNT(*) AS c
+        FROM gemini_image_tasks
+        WHERE created_at &gt;= #{start14} AND created_at &lt; #{endTomorrow}
+          AND task_type IN ('EDIT', 'CLOTHING_PRODUCT_SUITE', 'CLOTHING_PACKSHOT')
+        GROUP BY DATE_FORMAT(created_at, '%Y-%m-%d'), task_type
+    </select>
+
+    <select id="uploadDaily" resultType="map">
+        SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS d, COUNT(*) AS c
+        FROM user_upload_records
+        WHERE created_at &gt;= #{start14} AND created_at &lt; #{endTomorrow}
+        GROUP BY DATE_FORMAT(created_at, '%Y-%m-%d')
+    </select>
+
+    <select id="paidOrderDaily" resultType="map">
+        SELECT
+            DATE_FORMAT(paid_at, '%Y-%m-%d') AS d,
+            COUNT(*) AS c,
+            COALESCE(SUM(amount), 0) AS amt
+        FROM orders
+        WHERE status = 1
+          AND paid_at &gt;= #{start14} AND paid_at &lt; #{endTomorrow}
+        GROUP BY DATE_FORMAT(paid_at, '%Y-%m-%d')
+    </select>
+</mapper>

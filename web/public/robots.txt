@@ -1,0 +1,10 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# 账户相关页面无需收录
+Disallow: /login
+Disallow: /wallet
+Disallow: /profile
+
+Sitemap: https://fashtry.com/sitemap.xml

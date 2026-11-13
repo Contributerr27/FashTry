@@ -1,0 +1,50 @@
+# Compiled class file
+*.class
+
+# Log files
+*.log
+hs_err_pid*
+
+# Maven
+/target/
+
+# IDE
+/.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# --- Secrets: never commit credentials, keys or payment certificates ---
+.env
+.env.local
+.env.*.local
+application-local.yml
+application-pro.yml
+src/main/resources/WEB-INF/
+*.pem
+*.p12
+*.key
+*.jks
+*.keystore
+
+# --- Web (Vue) ---
+# Dependencies
+web/**/node_modules/
+
+# Build outputs
+web/**/dist/
+web/**/dist-*/
+web/dist*/
+
+# Vite cache
+web/**/.vite/
+
+# Local env files
+web/**/.env.local
+web/**/.env.*.local
+
+# Local Maven / build caches
+.mvn/wrapper/maven-wrapper.jar
