@@ -1,0 +1,71 @@
+name: Bug report
+description: Report a reproducible problem
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please search existing issues first.
+        For security problems, do not open a public issue — see SECURITY.md.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Backend / API
+        - PC storefront
+        - Admin console
+        - Database schema
+        - Deployment / Docker
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the actual behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      description: Tag, branch or commit hash.
+      placeholder: v0.1.0 or fd5f2a5
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, JDK, Node.js, MySQL and Redis versions.
+      placeholder: Windows 11, JDK 17, Node 20, MySQL 8.0, Redis 7
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      render: shell

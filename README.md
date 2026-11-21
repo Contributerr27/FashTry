@@ -315,6 +315,14 @@ backend. Terminate TLS at the proxy and keep payment/email webhook paths publicl
 - The bundled FASHN client is kept for compatibility; Gemini is the primary provider.
 - SMS/email delivery providers are region-specific and must be configured before use.
 
+## Roadmap
+
+- [ ] Automated tests for the credit ledger, task state machine and payment callbacks
+- [ ] One-command Docker Compose stack (backend + frontend + dependencies)
+- [ ] Flyway or Liquibase migrations for existing deployments
+- [ ] More AI providers (OpenAI, Flux, ComfyUI) behind a common adapter
+- [ ] Admin console internationalization
+
 ## Contributing
 
 Bug reports, docs fixes and pull requests are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md)

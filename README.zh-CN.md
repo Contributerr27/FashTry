@@ -305,6 +305,14 @@ TLS 在网关层终止，支付与邮件 Webhook 路径需公网可达。
 - 保留 FASHN 客户端用于兼容，主要供应商为 Gemini。
 - 短信/邮件通道有地域限制，使用前需自行配置。
 
+## Roadmap
+
+- [ ] 点数账本、任务状态机、支付回调的自动化测试
+- [ ] 一条命令启动的 Docker Compose 全栈（后端 + 前端 + 依赖）
+- [ ] 接入 Flyway 或 Liquibase，支持存量库升级
+- [ ] 通过统一适配层接入更多 AI 供应商（OpenAI、Flux、ComfyUI）
+- [ ] 管理后台国际化
+
 ## 参与贡献
 
 欢迎提交 Issue 和 PR，请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。如果这个项目对你有帮助，点个 Star 能让更多人看到它。
