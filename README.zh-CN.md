@@ -7,6 +7,13 @@
 **可私有化部署的开源 AI 虚拟试穿与电商内容平台。**
 虚拟试穿、模特出图、电商套图、穿搭视频、AI 写真等能力，以 Spring Boot + Vue 单体仓库的形式开源。
 
+[![Java 17](https://img.shields.io/badge/Java-17-orange?logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![Spring Boot 3.3](https://img.shields.io/badge/Spring%20Boot-3.3-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Vue 3](https://img.shields.io/badge/Vue-3-42B883?logo=vuedotjs&logoColor=white)](https://vuejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+**在线演示：** [fashtry.com](https://fashtry.com)
+
 [English](README.md) · [快速开始](#快速开始) · [配置](#配置) · [接口](#接口概览) · [许可证](#许可证)
 
 ![FashTry 首页](docs/screenshots/home.jpg)
@@ -300,7 +307,7 @@ TLS 在网关层终止，支付与邮件 Webhook 路径需公网可达。
 
 ## 参与贡献
 
-欢迎提交 Issue 和 PR，请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
+欢迎提交 Issue 和 PR，请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。如果这个项目对你有帮助，点个 Star 能让更多人看到它。
 
 ## 许可证
 

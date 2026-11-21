@@ -8,6 +8,13 @@
 Virtual try-on, model shots, e-commerce image packs, outfit videos, AI portraits and more —
 built as a production-shaped Spring Boot + Vue monorepo.
 
+[![Java 17](https://img.shields.io/badge/Java-17-orange?logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![Spring Boot 3.3](https://img.shields.io/badge/Spring%20Boot-3.3-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Vue 3](https://img.shields.io/badge/Vue-3-42B883?logo=vuedotjs&logoColor=white)](https://vuejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+**Live demo:** [fashtry.com](https://fashtry.com)
+
 [中文文档](README.zh-CN.md) · [Quick start](#quick-start) · [Configuration](#configuration) · [API](#api-overview) · [License](#license)
 
 ![FashTry home](docs/screenshots/home.jpg)
@@ -311,7 +318,7 @@ backend. Terminate TLS at the proxy and keep payment/email webhook paths publicl
 ## Contributing
 
 Bug reports, docs fixes and pull requests are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md)
-first.
+first. If the project is useful to you, a star helps more people find it.
 
 ## License
 
